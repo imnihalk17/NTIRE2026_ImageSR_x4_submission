@@ -2,7 +2,16 @@
 
 Official submission repository for Team11 (VAI-GM).
 
-## How to test the submitted model
+## Method
+
+- Team: VAI-GM (Team ID: 11)
+- Task: Image Super-Resolution x4
+- Base model: PFT-SR
+- Fine-tuning setup: last 2 layers/blocks + reconstruction tail
+- Data: Flickr2K
+- Iterations: 25,000
+
+## Inference
 
 1. Clone repository:
 
@@ -20,36 +29,25 @@ Official submission repository for Team11 (VAI-GM).
     cd ..
     ```
 
-3. Place checkpoint at:
+3. Checkpoint source:
 
-    ```text
-    ./model_zoo/team11_vaigm_last2/team11_vaigm_last2.pth
-    ```
+   The checkpoint download link is provided in:
 
-    If the checkpoint is too large for direct hosting, put a download link in:
+   ```text
+   ./model_zoo/PFT_SR_finetuned_VAIGM.txt
+   ```
 
-    ```text
-    ./model_zoo/team11_vaigm_last2/team11_vaigm_last2.txt
-    ```
+   Expected local checkpoint file path after download:
 
-4. Run inference using `test.py`:
+   ```text
+   ./model_zoo/PFT_SR_finetuned_VAIGM.pth
+   ```
 
-    - Test set only:
-      ```bash
-      python test.py --test_dir /path/to/test/LQ --save_dir /path/to/output --model_id 0
-      ```
+4. Run single-folder inference:
 
-    - Validation set only:
-      ```bash
-      python test.py --valid_dir /path/to/valid/LQ --save_dir /path/to/output --model_id 0
-      ```
-
-    - Both validation and test:
-      ```bash
-      python test.py --valid_dir /path/to/valid/LQ --test_dir /path/to/test/LQ --save_dir /path/to/output --model_id 0
-      ```
-
-     - You can use `--valid_dir`, or `--test_dir`, or both.
+   ```bash
+   python test.py --input_dir /path/to/LQ --output_dir /path/to/output
+   ```
 
 ## Folder structure
 
@@ -64,23 +62,31 @@ NTIRE2026_ImageSR_x4_submission/
 ├── basicsr/
 ├── ops_smm/
 ├── models/
-│   └── team11_vaigm_last2/
-│       ├── __init__.py
-│       └── io.py
+│   ├── __init__.py
+│   └── io.py
 └── model_zoo/
-     └── team11_vaigm_last2/
-          ├── team11_vaigm_last2.pth
-          └── team11_vaigm_last2.txt
+  ├── PFT_SR_finetuned_VAIGM.pth
+  └── PFT_SR_finetuned_VAIGM.txt
 ```
 
-Expected inference outputs:
+## Input and output format
+
+- Input: directory of LR images (PNG/JPG/JPEG)
+- Output: directory of restored SR images with original file names
+
+Example:
 
 ```text
-<save_dir>/11_vaigm_last2/valid/
-<save_dir>/11_vaigm_last2/test/
-```
+/path/to/LQ/
+├── 0001x4.png
+├── 0002x4.png
+└── ...
 
-Input images can be PNG/JPG/JPEG and output filenames are preserved.
+/path/to/output/
+├── 0001x4.png
+├── 0002x4.png
+└── ...
+```
 
 ## License and acknowledgement
 
