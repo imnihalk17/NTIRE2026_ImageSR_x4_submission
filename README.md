@@ -82,37 +82,6 @@ Expected inference outputs:
 
 Input images can be PNG/JPG/JPEG and output filenames are preserved.
 
-## How to add/replace a model in this baseline format
-
-> Submissions that do not follow the official structure may be rejected.
-
-1. Add model code in:
-
-    ```text
-    ./models/[teamID_modelname]/
-    ```
-
-2. Add model checkpoint (or link file) in:
-
-    ```text
-    ./model_zoo/[teamID_modelname]/
-    ```
-
-3. Implement a callable entrypoint:
-
-    ```python
-    def main(model_dir, input_path, output_path, device):
-         ...
-    ```
-
-    Your `main` function must accept exactly these 4 arguments:
-    - `model_dir`: checkpoint path
-    - `input_path`: directory containing LQ images
-    - `output_path`: directory to save restored images
-    - `device`: computation device
-
-4. Register the model in `test.py` by adding a `model_id` branch inside `select_model()`.
-
 ## License and acknowledgement
 
 This repository is released under the [MIT License](LICENSE).
