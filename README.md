@@ -95,12 +95,6 @@ Example:
 └── ...
 ```
 
-## Latest Codabench results package
-
-- Source results used for packaging: `pft_sr_results/content/PFT-SR/results/test`
-- Generated submission artifact: `codabench_submission/res.zip`
-- Validation summary: 100 PNG files + `readme.txt` in ZIP root
-
 ## License and acknowledgement
 
 This repository is released under the [MIT License](LICENSE).
