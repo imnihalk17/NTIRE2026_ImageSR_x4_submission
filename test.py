@@ -16,8 +16,7 @@ def select_model():
 
     if len(pth_files) == 1:
         model_path = pth_files[0]
-        model_name = os.path.splitext(os.path.basename(model_path))[0]
-        model_link_path = os.path.join(model_zoo, f"{model_name}.txt")
+        model_link_path = txt_files[0] if len(txt_files) == 1 else None
     else:
         if len(txt_files) == 0:
             raise FileNotFoundError(
@@ -28,25 +27,24 @@ def select_model():
                 "Multiple .txt link files found in model_zoo. Keep only one link file."
             )
         model_link_path = txt_files[0]
-        model_name = os.path.splitext(os.path.basename(model_link_path))[0]
-        model_path = os.path.join(model_zoo, f"{model_name}.pth")
+        model_path = None
 
-    return model_name, model_path, model_link_path
+    return model_path, model_link_path
 
 
 def run(model_path, model_link_path, args):
     save_path = args.output_dir
     os.makedirs(save_path, exist_ok=True)
 
-    if not os.path.isfile(model_path):
+    if model_path is None or not os.path.isfile(model_path):
         if os.path.isfile(model_link_path):
             with open(model_link_path, "r", encoding="utf-8") as f:
                 model_link = f.read().strip()
             raise FileNotFoundError(
-                f"Checkpoint not found: {model_path}\n"
+                "No checkpoint (.pth) found in model_zoo.\n"
                 f"Download the checkpoint from: {model_link}"
             )
-        raise FileNotFoundError(f"Checkpoint not found: {model_path}")
+        raise FileNotFoundError("No checkpoint (.pth) found in model_zoo.")
 
     try:
         from models import main as model_func
@@ -63,7 +61,7 @@ def run(model_path, model_link_path, args):
 
 
 def main(args):
-    _, model_path, model_link_path = select_model()
+    model_path, model_link_path = select_model()
     run(model_path, model_link_path, args)
 
 

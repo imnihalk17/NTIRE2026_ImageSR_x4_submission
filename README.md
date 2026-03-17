@@ -38,7 +38,7 @@ Official submission repository for Team11 (VAI-GM).
    ```
 
   Download the `.pth` file into `model_zoo/`.
-  The inference script auto-detects a single checkpoint in that folder.
+  The inference script auto-detects a single checkpoint in that folder (filename can be any name).
 
   Example checkpoint path:
 
