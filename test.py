@@ -5,9 +5,6 @@ from glob import glob
 
 
 def select_model():
-    from models import main as pft_main
-    model_func = pft_main
-
     model_zoo = "model_zoo"
     pth_files = sorted(glob(os.path.join(model_zoo, "*.pth")))
     txt_files = sorted(glob(os.path.join(model_zoo, "*.txt")))
@@ -34,10 +31,10 @@ def select_model():
         model_name = os.path.splitext(os.path.basename(model_link_path))[0]
         model_path = os.path.join(model_zoo, f"{model_name}.pth")
 
-    return model_func, model_name, model_path, model_link_path
+    return model_name, model_path, model_link_path
 
 
-def run(model_func, model_path, model_link_path, args):
+def run(model_path, model_link_path, args):
     save_path = args.output_dir
     os.makedirs(save_path, exist_ok=True)
 
@@ -51,14 +48,23 @@ def run(model_func, model_path, model_link_path, args):
             )
         raise FileNotFoundError(f"Checkpoint not found: {model_path}")
 
+    try:
+        from models import main as model_func
+    except ModuleNotFoundError as exc:
+        if getattr(exc, "name", "") == "smm_cuda":
+            raise ModuleNotFoundError(
+                "Missing dependency 'smm_cuda'. Build it with: cd ops_smm ; python setup.py install"
+            ) from exc
+        raise
+
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model_func(model_dir=model_path, input_path=args.input_dir, output_path=save_path, device=device)
     print(f"Saved outputs: {save_path}")
 
 
 def main(args):
-    model_func, _, model_path, model_link_path = select_model()
-    run(model_func, model_path, model_link_path, args)
+    _, model_path, model_link_path = select_model()
+    run(model_path, model_link_path, args)
 
 
 if __name__ == "__main__":
