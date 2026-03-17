@@ -1,26 +1,74 @@
-# NTIRE 2026 ImageSR x4 - VAI-GM
+# NTIRE 2026 Challenge on Image Super-Resolution (x4) Team11 VAI-GM
 
-This repository is prepared for NTIRE 2026 organizer-side reproducibility.
-Base model used: PFT-SR.
+This repository is the official reproducibility package for Team11 (VAI-GM) in the NTIRE 2026 Image Super-Resolution x4 challenge.
 
-## 1) Method summary
+## Method summary
 
-- Team: VAI-GM (Team ID: 11)
-- Task: Image Super-Resolution x4
-- Training strategy: fine-tune only the last 2 layers/blocks (+ SR tail)
-- Training data: Flickr2K
-- Training iterations: 25,000
-- Inference: single model checkpoint
+- **Team**: VAI-GM (Team ID: 11)
+- **Task**: Image Super-Resolution (x4)
+- **Backbone**: PFT-SR
+- **Training strategy**: fine-tune only the last 2 transformer blocks/layers (+ SR tail), freeze the rest
+- **Training data**: Flickr2K
+- **Training iterations**: 25,000
+- **Inference**: single checkpoint, single-model inference
 
-## 2) Repository layout
+## How to test the submitted model
+
+1. Clone repository:
+
+    ```bash
+    git clone https://github.com/imnihalk17/NTIRE2026_ImageSR_x4_submission.git
+    cd NTIRE2026_ImageSR_x4_submission
+    ```
+
+2. Install environment:
+
+    ```bash
+    pip install -r requirements.txt
+    cd ops_smm
+    python setup.py install
+    cd ..
+    ```
+
+3. Place checkpoint at:
+
+    ```text
+    ./model_zoo/team11_vaigm_last2/team11_vaigm_last2.pth
+    ```
+
+    If the checkpoint is too large for direct hosting, put a download link in:
+
+    ```text
+    ./model_zoo/team11_vaigm_last2/team11_vaigm_last2.txt
+    ```
+
+4. Run inference using `test.py`:
+
+    - Test set only:
+      ```bash
+      python test.py --test_dir /path/to/test/LQ --save_dir /path/to/output --model_id 0
+      ```
+
+    - Validation set only:
+      ```bash
+      python test.py --valid_dir /path/to/valid/LQ --save_dir /path/to/output --model_id 0
+      ```
+
+    - Both validation and test:
+      ```bash
+      python test.py --valid_dir /path/to/valid/LQ --test_dir /path/to/test/LQ --save_dir /path/to/output --model_id 0
+      ```
+
+## Folder structure
 
 ```text
 NTIRE2026_ImageSR_x4_submission/
 ├── test.py
-├── requirements.txt
 ├── README.md
+├── requirements.txt
 ├── setup.py
 ├── VERSION
+├── LICENSE
 ├── basicsr/
 ├── ops_smm/
 ├── models/
@@ -28,78 +76,74 @@ NTIRE2026_ImageSR_x4_submission/
 │       ├── __init__.py
 │       └── io.py
 └── model_zoo/
-    └── team11_vaigm_last2/
-        ├── team11_vaigm_last2.pth
-        └── team11_vaigm_last2.txt
+     └── team11_vaigm_last2/
+          ├── team11_vaigm_last2.pth
+          └── team11_vaigm_last2.txt
 ```
 
-## 3) Environment setup
-
-Recommended: Python 3.9+ with CUDA-capable GPU.
-
-```bash
-pip install -r requirements.txt
-cd ops_smm
-python setup.py install
-cd ..
-```
-
-## 4) Checkpoint placement
-
-Place final checkpoint at:
+Expected inference outputs:
 
 ```text
-model_zoo/team11_vaigm_last2/team11_vaigm_last2.pth
-```
-
-If checkpoint size exceeds organizer limit, put a public download link in:
-
-```text
-model_zoo/team11_vaigm_last2/team11_vaigm_last2.txt
-```
-
-## 5) Run commands
-
-Test set:
-
-```bash
-python test.py --test_dir /path/to/LQ --save_dir /path/to/output --model_id 0
-```
-
-Validation set:
-
-```bash
-python test.py --valid_dir /path/to/LQ --save_dir /path/to/output --model_id 0
-```
-
-Both:
-
-```bash
-python test.py --valid_dir /path/to/val_LQ --test_dir /path/to/test_LQ --save_dir /path/to/output --model_id 0
-```
-
-## 6) Input/output conventions
-
-- Input: LR images folder (PNG/JPG)
-- Output folder:
-
-```text
-<save_dir>/11_vaigm_last2/test/
 <save_dir>/11_vaigm_last2/valid/
+<save_dir>/11_vaigm_last2/test/
 ```
 
-Output images keep the same filenames as input images.
+Input images can be PNG/JPG/JPEG and output filenames are preserved.
 
-## 7) Colab alignment
+## How to add/replace a model in this baseline format
 
-This package matches the project notebook pipeline:
-- `finetune_last_n_blocks = 2`
-- final model corresponds to the 25,000-iteration run
-- Flickr2K training setup
+> Submissions that do not follow the official structure may be rejected.
 
-## 8) Final checklist before submission
+1. Add model code in:
 
-- Ensure checkpoint exists (or link provided)
-- Ensure commands run in terminal as-is
-- Do not include datasets or generated result images in this repo
-- Keep this repository as the single code package for organizers
+    ```text
+    ./models/[teamID_modelname]/
+    ```
+
+2. Add model checkpoint (or link file) in:
+
+    ```text
+    ./model_zoo/[teamID_modelname]/
+    ```
+
+3. Implement a callable entrypoint:
+
+    ```python
+    def main(model_dir, input_path, output_path, device):
+         ...
+    ```
+
+    Your `main` function must accept exactly these 4 arguments:
+    - `model_dir`: checkpoint path
+    - `input_path`: directory containing LQ images
+    - `output_path`: directory to save restored images
+    - `device`: computation device
+
+4. Register the model in `test.py` by adding a `model_id` branch inside `select_model()`.
+
+## Reproducibility notes
+
+- This package corresponds to the final Team11 run using the **last-2-blocks fine-tuning** setup.
+- The architecture loaded in `models/team11_vaigm_last2/io.py` is the official PFT x4 variant used in the run:
+  - `depths = [4, 4, 4, 6, 6, 6]`
+  - `num_heads = 6`
+  - 30-element `num_topk` schedule
+- Checkpoint loading supports common keys: `params_ema`, `params`, `state_dict`, or raw state dict.
+
+## Submission checklist
+
+- Confirm `test.py` runs directly from repo root.
+- Confirm checkpoint exists at the expected path (or link file is valid).
+- Confirm output images are generated under `<save_dir>/11_vaigm_last2/{valid|test}`.
+- Do not include datasets or temporary result folders in the final package.
+- Provide organizers with the clone command:
+
+  ```bash
+  git clone https://github.com/imnihalk17/NTIRE2026_ImageSR_x4_submission.git
+  ```
+
+## License and acknowledgement
+
+This repository is released under the [MIT License](LICENSE).
+
+Base implementation relies on the PFT-SR / BasicSR codebase components included in this submission package.
