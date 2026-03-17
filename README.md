@@ -73,7 +73,6 @@ NTIRE2026_ImageSR_x4_submission/
 │   ├── __init__.py
 │   └── io.py
 └── model_zoo/
-  ├── PFT_SR_finetuned_VAIGM.pth
   └── PFT_SR_finetuned_VAIGM.txt
 ```
 
