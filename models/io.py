@@ -62,7 +62,7 @@ def main(model_dir: str, input_path: str, output_path: str, device=None):
     if not os.path.isfile(model_dir):
         raise FileNotFoundError(
             f"Checkpoint not found: {model_dir}. "
-            "Place your model at model_zoo/PFT_SR_finetuned_VAIGM.pth"
+            "Place your model checkpoint (.pth) in model_zoo/"
         )
     if not os.path.isdir(input_path):
         raise FileNotFoundError(f"Input folder not found: {input_path}")

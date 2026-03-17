@@ -31,13 +31,16 @@ Official submission repository for Team11 (VAI-GM).
 
 3. Checkpoint source:
 
-   The checkpoint download link is provided in:
+  The checkpoint download link is provided in:
 
    ```text
    ./model_zoo/PFT_SR_finetuned_VAIGM.txt
    ```
 
-   Expected local checkpoint file path after download:
+  Download the `.pth` file into `model_zoo/`.
+  The inference script auto-detects a single checkpoint in that folder.
+
+  Example checkpoint path:
 
    ```text
    ./model_zoo/PFT_SR_finetuned_VAIGM.pth
@@ -48,6 +51,11 @@ Official submission repository for Team11 (VAI-GM).
    ```bash
    python test.py --input_dir /path/to/LQ --output_dir /path/to/output
    ```
+
+  Notes:
+  - `--input_dir`: folder with LR images
+  - `--output_dir`: folder where SR images are saved
+  - Input and output filenames are identical
 
 ## Folder structure
 

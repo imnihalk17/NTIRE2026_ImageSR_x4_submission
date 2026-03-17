@@ -1,14 +1,39 @@
 import argparse
 import os
 import torch
+from glob import glob
 
 
 def select_model():
     from models import main as pft_main
     model_func = pft_main
-    model_name = "PFT_SR_finetuned_VAIGM"
-    model_path = os.path.join("model_zoo", f"{model_name}.pth")
-    model_link_path = os.path.join("model_zoo", f"{model_name}.txt")
+
+    model_zoo = "model_zoo"
+    pth_files = sorted(glob(os.path.join(model_zoo, "*.pth")))
+    txt_files = sorted(glob(os.path.join(model_zoo, "*.txt")))
+
+    if len(pth_files) > 1:
+        raise RuntimeError(
+            "Multiple checkpoints found in model_zoo. Keep only one .pth file for inference."
+        )
+
+    if len(pth_files) == 1:
+        model_path = pth_files[0]
+        model_name = os.path.splitext(os.path.basename(model_path))[0]
+        model_link_path = os.path.join(model_zoo, f"{model_name}.txt")
+    else:
+        if len(txt_files) == 0:
+            raise FileNotFoundError(
+                "No checkpoint (.pth) or link (.txt) found in model_zoo."
+            )
+        if len(txt_files) > 1:
+            raise RuntimeError(
+                "Multiple .txt link files found in model_zoo. Keep only one link file."
+            )
+        model_link_path = txt_files[0]
+        model_name = os.path.splitext(os.path.basename(model_link_path))[0]
+        model_path = os.path.join(model_zoo, f"{model_name}.pth")
+
     return model_func, model_name, model_path, model_link_path
 
 
