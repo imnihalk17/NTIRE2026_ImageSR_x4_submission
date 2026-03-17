@@ -1,6 +1,2 @@
-Checkpoint file expected by test script:
-model_zoo/team11_vaigm_last2/team11_vaigm_last2.pth
-
-If checkpoint size exceeds 100 MB, provide a public download link here.
-The checkpoint should be your final x4 model, loadable by PyTorch with keys under one of:
-params_ema / params / state_dict / raw state_dict.
+Put public checkpoint link here if .pth is not committed:
+https://YOUR_CHECKPOINT_LINK
