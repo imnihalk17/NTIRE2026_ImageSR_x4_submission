@@ -1,18 +1,10 @@
 import glob
 import os
 import os.path as osp
-import sys
-from pathlib import Path
 
 import torch
 from PIL import Image
 from torchvision import transforms
-
-
-REPO_ROOT = Path(__file__).resolve().parents[2]
-PFT_ROOT = REPO_ROOT / "external" / "PFT-SR"
-if str(PFT_ROOT) not in sys.path:
-    sys.path.insert(0, str(PFT_ROOT))
 
 from basicsr.archs.pft_arch import PFT
 
