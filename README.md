@@ -1,100 +1,75 @@
-# NTIRE 2026 Challenge on Image Super-Resolution (x4) Team11 VAI-GM
+# [NTIRE 2026 Challenge on Image Super-Resolution (x4)](https://cvlai.net/ntire/2026/) @ [CVPR 2026](https://cvpr.thecvf.com/)
 
-Official submission repository for Team11 (VAI-GM).
+Team submission repository for Team11 (VAI-GM).
 
-## Method
+## Notice
 
-- Team: VAI-GM (Team ID: 11)
-- Task: Image Super-Resolution x4
-- Base model: PFT-SR
-- Fine-tuning setup: last 2 layers/blocks + reconstruction tail
-- Data: Flickr2K
-- Iterations: 25,000
+This repository follows the official NTIRE 2026 Image SR x4 submission format.
 
-## Inference
+## How to test our model?
 
-1. Clone repository:
+1. Clone the repository:
 
-    ```bash
-    git clone https://github.com/imnihalk17/NTIRE2026_ImageSR_x4_submission.git
-    cd NTIRE2026_ImageSR_x4_submission
-    ```
+  ```bash
+  git clone https://github.com/imnihalk17/NTIRE2026_ImageSR_x4_submission.git
+  cd NTIRE2026_ImageSR_x4_submission
+  ```
 
-2. Install environment:
+2. Install dependencies:
 
-    ```bash
-    pip install -r requirements.txt
-    cd ops_smm
-    python setup.py install
-    cd ..
-    ```
+  ```bash
+  pip install -r requirements.txt
+  cd ops_smm
+  python setup.py install
+  cd ..
+  ```
 
-3. Checkpoint source:
+3. Download checkpoint:
 
-  The checkpoint download link is provided in:
+  - Download link file: `./model_zoo/team11_pft_sr/team11_pft_sr.txt`
+  - Put one `.pth` checkpoint under `./model_zoo/team11_pft_sr/`
 
-   ```text
-   ./model_zoo/PFT_SR_finetuned_VAIGM.txt
-   ```
+4. Run inference:
 
-  Download the `.pth` file into `model_zoo/`.
-  The inference script auto-detects a single checkpoint in that folder (filename can be any name).
+  ```bash
+  python test.py --input_dir /path/to/LQ --output_dir /path/to/output
+  ```
 
-  Example checkpoint path:
+The script auto-detects one checkpoint in `model_zoo/**`. If no checkpoint is found, it reports the link from the `.txt` file.
 
-   ```text
-   ./model_zoo/PFT_SR_finetuned_VAIGM.pth
-   ```
-
-4. Run single-folder inference:
-
-   ```bash
-   python test.py --input_dir /path/to/LQ --output_dir /path/to/output
-   ```
-
-  Notes:
-  - `--input_dir`: folder with LR images
-  - `--output_dir`: folder where SR images are saved
-  - Input and output filenames are identical
-
-## Folder structure
+## Folder Structure
 
 ```text
 NTIRE2026_ImageSR_x4_submission/
+├── factsheet/
+│   └── NTIRE2026_Image_Super_Resolution_X4_factsheet.pdf
+├── model_zoo/
+│   └── team11_pft_sr/
+│       └── team11_pft_sr.txt
+├── models/
+│   ├── __init__.py
+│   └── team11_pft_sr/
+│       ├── __init__.py
+│       └── io.py
+├── basicsr/
+├── ops_smm/
 ├── test.py
-├── README.md
 ├── requirements.txt
 ├── setup.py
 ├── VERSION
-├── LICENSE
-├── basicsr/
-├── ops_smm/
-├── models/
-│   ├── __init__.py
-│   └── io.py
-└── model_zoo/
-  └── PFT_SR_finetuned_VAIGM.txt
+└── LICENSE
 ```
 
-## Input and output format
+## Team and Method
 
-- Input: directory of LR images (PNG/JPG/JPEG)
-- Output: directory of restored SR images with original file names
+- Team name: VAI-GM
+- Team ID: 11
+- Codabench username: `nihalk17`
+- Base model: PFT-SR
+- Fine-tuning: last 2 transformer blocks + reconstruction tail
+- Training data: Flickr2K
+- Iterations: 25,000
 
-Example:
-
-```text
-/path/to/LQ/
-├── 0001x4.png
-├── 0002x4.png
-└── ...
-
-/path/to/output/
-├── 0001x4.png
-├── 0002x4.png
-└── ...
-```
-
-## License and acknowledgement
+## License and Acknowledgement
 
 This repository is released under the [MIT License](LICENSE).

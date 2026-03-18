@@ -6,8 +6,8 @@ from glob import glob
 
 def select_model():
     model_zoo = "model_zoo"
-    pth_files = sorted(glob(os.path.join(model_zoo, "*.pth")))
-    txt_files = sorted(glob(os.path.join(model_zoo, "*.txt")))
+    pth_files = sorted(glob(os.path.join(model_zoo, "**", "*.pth"), recursive=True))
+    txt_files = sorted(glob(os.path.join(model_zoo, "**", "*.txt"), recursive=True))
 
     if len(pth_files) > 1:
         raise RuntimeError(
