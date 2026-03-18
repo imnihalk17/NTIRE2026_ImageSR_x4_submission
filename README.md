@@ -6,6 +6,16 @@ Team submission repository for Team11 (VAI-GM).
 
 This repository follows the official NTIRE 2026 Image SR x4 submission format.
 
+## Team and Method
+
+- Team name: VAI-GM
+- Team ID: 11
+- Codabench username: `nihalk17`
+- Model name: PFT-SR (`team11_pft_sr`)
+- Fine-tuning: last 2 transformer blocks + reconstruction tail
+- Training data: Flickr2K
+- Iterations: 25,000
+
 ## How to test our model?
 
 1. Clone the repository:
@@ -19,7 +29,7 @@ This repository follows the official NTIRE 2026 Image SR x4 submission format.
 
   ```bash
   pip install -r requirements.txt
-  cd ops_smm
+  cd utils
   python setup.py install
   cd ..
   ```
@@ -27,7 +37,7 @@ This repository follows the official NTIRE 2026 Image SR x4 submission format.
 3. Download checkpoint:
 
   - Download link file: `./model_zoo/team11_pft_sr/team11_pft_sr.txt`
-  - Put one `.pth` checkpoint under `./model_zoo/team11_pft_sr/`
+  - Put one `.pth` checkpoint under `./model_zoo/team11_pft_sr/` (folder format: `model_zoo/<teamID_modelName>/`)
 
 4. Run inference:
 
@@ -36,6 +46,20 @@ This repository follows the official NTIRE 2026 Image SR x4 submission format.
   ```
 
 The script auto-detects one checkpoint in `model_zoo/**`. If no checkpoint is found, it reports the link from the `.txt` file.
+
+## Input and Output Folder Structure
+
+```text
+/path/to/LQ/
+├── 0001x4.png
+├── 0002x4.png
+└── ...
+
+/path/to/output/
+├── 0001x4.png
+├── 0002x4.png
+└── ...
+```
 
 ## Folder Structure
 
@@ -52,23 +76,13 @@ NTIRE2026_ImageSR_x4_submission/
 │       ├── __init__.py
 │       └── io.py
 ├── basicsr/
-├── ops_smm/
+├── utils/
 ├── test.py
 ├── requirements.txt
 ├── setup.py
 ├── VERSION
 └── LICENSE
 ```
-
-## Team and Method
-
-- Team name: VAI-GM
-- Team ID: 11
-- Codabench username: `nihalk17`
-- Base model: PFT-SR
-- Fine-tuning: last 2 transformer blocks + reconstruction tail
-- Training data: Flickr2K
-- Iterations: 25,000
 
 ## License and Acknowledgement
 

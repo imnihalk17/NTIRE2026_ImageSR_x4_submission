@@ -51,7 +51,7 @@ def run(model_path, model_link_path, args):
     except ModuleNotFoundError as exc:
         if getattr(exc, "name", "") == "smm_cuda":
             raise ModuleNotFoundError(
-                "Missing dependency 'smm_cuda'. Build it with: cd ops_smm ; python setup.py install"
+                "Missing dependency 'smm_cuda'. Build it with: cd utils ; python setup.py install"
             ) from exc
         raise
 
