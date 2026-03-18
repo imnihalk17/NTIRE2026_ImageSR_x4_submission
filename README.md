@@ -11,7 +11,7 @@ This repository follows the official NTIRE 2026 Image SR x4 submission format.
 - Team name: VAI-GM
 - Team ID: 11
 - Codabench username: `nihalk17`
-- Model name: PFT-SR (`team11_pft_sr`)
+- Model name: PFT-SR
 - Fine-tuning: last 2 transformer blocks + reconstruction tail
 - Training data: Flickr2K
 - Iterations: 25,000
@@ -36,8 +36,8 @@ This repository follows the official NTIRE 2026 Image SR x4 submission format.
 
 3. Download checkpoint:
 
-  - Download link file: `./model_zoo/team11_pft_sr/team11_pft_sr.txt`
-  - Put one `.pth` checkpoint under `./model_zoo/team11_pft_sr/` (folder format: `model_zoo/<teamID_modelName>/`)
+  Download link file: `./model_zoo/team11_pft_sr/team11_pft_sr.txt`
+  Put one `.pth` checkpoint under `./model_zoo/team11_pft_sr/` (folder format: `model_zoo/<teamID_modelName>/`)
 
 4. Run inference:
 
@@ -47,20 +47,6 @@ This repository follows the official NTIRE 2026 Image SR x4 submission format.
 
 The script auto-detects one checkpoint in `model_zoo/**`. If no checkpoint is found, it reports the link from the `.txt` file.
 
-## Input and Output Folder Structure
-
-```text
-/path/to/LQ/
-├── 0001x4.png
-├── 0002x4.png
-└── ...
-
-/path/to/output/
-├── 0001x4.png
-├── 0002x4.png
-└── ...
-```
-
 ## Folder Structure
 
 ```text
@@ -69,6 +55,7 @@ NTIRE2026_ImageSR_x4_submission/
 │   └── NTIRE2026_Image_Super_Resolution_X4_factsheet.pdf
 ├── model_zoo/
 │   └── team11_pft_sr/
+│       ├── team11_pft_sr.pth
 │       └── team11_pft_sr.txt
 ├── models/
 │   ├── __init__.py
@@ -82,6 +69,20 @@ NTIRE2026_ImageSR_x4_submission/
 ├── setup.py
 ├── VERSION
 └── LICENSE
+```
+
+## Input and Output Folder Structure
+
+```text
+/path/to/LQ/
+├── 0001x4.png
+├── 0002x4.png
+└── ...
+
+/path/to/output/
+├── 0001x4.png
+├── 0002x4.png
+└── ...
 ```
 
 ## License and Acknowledgement
