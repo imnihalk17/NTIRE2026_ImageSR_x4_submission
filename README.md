@@ -37,7 +37,7 @@ This repository follows the official NTIRE 2026 Image SR x4 submission format.
 3. Download checkpoint:
 
   Download link file: `./model_zoo/team11_pft_sr/team11_pft_sr.txt`
-  Put one `.pth` checkpoint under `./model_zoo/team11_pft_sr/` (folder format: `model_zoo/<teamID_modelName>/`)
+  Put one `.pth` checkpoint under `./model_zoo/team11_pft_sr/`
 
 4. Run inference:
 
@@ -55,7 +55,7 @@ NTIRE2026_ImageSR_x4_submission/
 │   └── NTIRE2026_Image_Super_Resolution_X4_factsheet.pdf
 ├── model_zoo/
 │   └── team11_pft_sr/
-│       ├── team11_pft_sr.pth
+│       ├── PFT_SR_finetuned_VAIGM.pth
 │       └── team11_pft_sr.txt
 ├── models/
 │   ├── __init__.py
